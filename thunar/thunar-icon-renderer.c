@@ -393,7 +393,6 @@ thunar_icon_renderer_render (GtkCellRenderer     *renderer,
   gint                    position;
   gdouble                 alpha;
   gint                    emblem_size;
-  gboolean                color_selected;
   gboolean                color_lighten;
   gboolean                is_expanded;
 
@@ -447,7 +446,6 @@ thunar_icon_renderer_render (GtkCellRenderer     *renderer,
   icon_area.y = cell_area->y + (cell_area->height - icon_area.height) / 2;
 
   /* bools for cairo transformations */
-  color_selected = (flags & GTK_CELL_RENDERER_SELECTED) != 0 && icon_renderer->follow_state;
   color_lighten = (flags & GTK_CELL_RENDERER_PRELIT) != 0 && icon_renderer->follow_state;
 
   /* check whether the icon is affected by the expose event */
@@ -482,10 +480,6 @@ thunar_icon_renderer_render (GtkCellRenderer     *renderer,
       /* paint the lighten mask */
       if (color_lighten)
         thunar_icon_renderer_color_lighten (cr, widget);
-
-      /* paint the selected mask */
-      if (color_selected)
-        thunar_icon_renderer_color_selected (cr, widget);
     }
 
   /* release the file's icon */
@@ -574,10 +568,6 @@ thunar_icon_renderer_render (GtkCellRenderer     *renderer,
                   /* paint the lighten mask */
                   if (color_lighten)
                     thunar_icon_renderer_color_lighten (cr, widget);
-
-                  /* paint the selected mask */
-                  if (color_selected)
-                    thunar_icon_renderer_color_selected (cr, widget);
                 }
 
               /* release the emblem */
